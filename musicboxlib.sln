@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "musicboxlib", "musicboxlib\musicboxlib.vcxproj", "{E96923A0-7F33-4F8E-A267-A54B379DD0C9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "musicboxlib_test", "musicboxlib_test\musicboxlib_test.vcxproj", "{F6487C63-1732-476B-B2C8-2946735528F5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "websocketpp", "websocketpp\windows\vcpp2010\websocketpp.vcxproj", "{1C0FD04E-5ACA-4031-B3D1-320A5360C9D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E96923A0-7F33-4F8E-A267-A54B379DD0C9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E96923A0-7F33-4F8E-A267-A54B379DD0C9}.Debug|Win32.Build.0 = Debug|Win32
+		{E96923A0-7F33-4F8E-A267-A54B379DD0C9}.Release|Win32.ActiveCfg = Release|Win32
+		{E96923A0-7F33-4F8E-A267-A54B379DD0C9}.Release|Win32.Build.0 = Release|Win32
+		{F6487C63-1732-476B-B2C8-2946735528F5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F6487C63-1732-476B-B2C8-2946735528F5}.Debug|Win32.Build.0 = Debug|Win32
+		{F6487C63-1732-476B-B2C8-2946735528F5}.Release|Win32.ActiveCfg = Release|Win32
+		{F6487C63-1732-476B-B2C8-2946735528F5}.Release|Win32.Build.0 = Release|Win32
+		{1C0FD04E-5ACA-4031-B3D1-320A5360C9D0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1C0FD04E-5ACA-4031-B3D1-320A5360C9D0}.Debug|Win32.Build.0 = Debug|Win32
+		{1C0FD04E-5ACA-4031-B3D1-320A5360C9D0}.Release|Win32.ActiveCfg = Release|Win32
+		{1C0FD04E-5ACA-4031-B3D1-320A5360C9D0}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
