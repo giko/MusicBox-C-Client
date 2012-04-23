@@ -15,10 +15,10 @@ using std::string;
 
 class MUSICBOXLIB_API CMusicBox {
 public:
-  CMusicBox(void);
-  bool Connect(string url);
-  void (*onConnect) (const string &msg);
-  void (*onMessage) (const string &msg);
-  void (*onError) (const string &msg);
-  void (*onClose) (const string &msg);
+    CMusicBox(void);
+    bool Connect(string url);
+    void (*onConnect) (const string &msg);
+    void (*onMessage) (const string &msg);
+    void (*onError) (const string &msg);
+    void (*onClose) (const string &msg);
 };
