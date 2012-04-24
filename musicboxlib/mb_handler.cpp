@@ -39,6 +39,10 @@ void musicbox_client_handler::send(const std::string &msg) {
     }
 }
 
+void musicbox_client_handler::on_close(connection_ptr con){
+  musicbox_handler->onClose("Closed!");
+}
+
 void musicbox_client_handler::close() {
     if (!connection) {
         std::cerr << "Error: no connected session" << std::endl;

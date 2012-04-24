@@ -10,7 +10,7 @@ class musicbox_client_handler : public client::handler {
 public:
     musicbox_client_handler(CMusicBox *mb);
     void on_open(connection_ptr con);
-
+    void on_close(connection_ptr con);
     void on_message(connection_ptr con, message_ptr msg);
     void send(const std::string &msg);
     void close();
