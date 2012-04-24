@@ -10,66 +10,73 @@
 // see musicboxlib.h for the class definition
 CMusicBox::CMusicBox()
 {
-	return;
+    return;
 }
 
 bool CMusicBox::Connect(const char *uri){
-	try {
-		//std::cout << string(uri);
+    try {
+        musicbox_client_handler_ptr handler(new musicbox_client_handler(this));
 
-		musicbox_client_handler_ptr handler(new musicbox_client_handler(this));
-		client::connection_ptr con;
-		client endpoint(handler);
+        ////I hope, god doesn't seen this
+        //handler = handlerex;
 
-		string uristr(uri);
+        client::connection_ptr con;
+        client endpoint(handler);
 
-		std::cout << uristr;
+        string uristr(uri);
 
-		con = endpoint.get_connection(uristr);
+        con = endpoint.get_connection(uristr);
 
-		endpoint.connect(con);
+        endpoint.connect(con);
 
-		boost::thread t(boost::bind(&client::run, &endpoint, false));
+        boost::thread t(boost::bind(&client::run, &endpoint, false));
 
-		char line[512];
-		while (std::cin.getline(line, 512)) {
-			handler->send(line);
-		}
+        char line[512];
+        while (std::cin.getline(line, 512)) {
+            handler->send(line);
+        }
+        t.join();
+    } catch (std::exception& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+        return false;
+    }
 
-		t.join();
-	} catch (std::exception& e) {
-		std::cerr << "Exception: " << e.what() << std::endl;
-		return false;
-	}
-
-	return true;
+    return true;
 }
+
+
 extern "C" {
-	CMusicBoxHandler NewMusicBox(void){
-		return new CMusicBox;
-	}
+    CMusicBoxHandler MUSICBOXLIB_API NewMusicBox(void){
+        return new CMusicBox();
+    }
 
-	bool MusicBoxConnect(CMusicBoxHandler handler, const char *url){
-		return handler->Connect(url);
-	}
+    PChar MUSICBOXLIB_API MusicBoxConnect(CMusicBoxHandler handler, const char *url){
+        boost::thread t(boost::bind(&CMusicBox::Connect, *handler, url));
 
-	void MusicBoxSetCallback(CMusicBoxHandler handler, enum CallbackType type, mb_callback cb){
-		switch (type)
-		{
-		case OnConnect:
-			handler->onConnect = cb;
-			break;
-		case OnMessage:
-			handler->onMessage = cb;
-			break;
-		case OnError:
-			handler->onError = cb;
-			break;
-		case OnClose:
-			handler->onClose = cb;
-			break;
-		default:
-			break;
-		}
-	}
+        return "running";
+    }
+
+    void MUSICBOXLIB_API MusicBoxSetCallback(CMusicBoxHandler handler, enum CallbackType type, mb_callback cb){
+        switch (type)
+        {
+        case OnConnect:
+            handler->onConnect = cb;
+            break;
+        case OnMessage:
+            handler->onMessage = cb;
+            break;
+        case OnError:
+            handler->onError = cb;
+            break;
+        case OnClose:
+            handler->onClose = cb;
+            break;
+        default:
+            break;
+        }
+    }
+
+    //void MUSICBOXLIB_API MusicBoxClose(CMusicBoxHandler handler){
+    //    //handler->handler->close();
+    //}
 }

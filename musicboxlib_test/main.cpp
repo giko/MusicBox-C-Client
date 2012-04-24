@@ -7,15 +7,15 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-void onMessage(const string &msg){
+void onMessage(const char *msg){
     cout << msg << endl;
 }
 
-void onConnect(const string &msg){
+void onConnect(const char *msg){
     cout << "Connected to: " << msg << endl;
 }
 
-void onError(const string &msg){
+void onError(const char *msg){
     cout << msg << endl;
 }
 
@@ -41,7 +41,10 @@ int main() {
     //return 0;
 
 	CMusicBoxHandler handler = NewMusicBox();
-
-	MusicBoxConnect(handler, "ws://localhost/musicbox");
+	
 	MusicBoxSetCallback(handler, OnConnect, &onConnect);
+    MusicBoxSetCallback(handler, OnError, &onError);
+    MusicBoxSetCallback(handler, OnMessage, &onMessage);
+    MusicBoxConnect(handler, "ws://localhost/musicbox");
+    //MusicBoxSetCallback(handler, OnClose, &oncl);
 }

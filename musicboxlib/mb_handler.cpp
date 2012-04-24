@@ -14,7 +14,7 @@ void musicbox_client_handler::on_open(connection_ptr con){
 }
 
 void musicbox_client_handler::on_message(connection_ptr con, message_ptr msg){
-	musicbox_handler->onMessage(msg->get_payload());
+    musicbox_handler->onMessage(msg->get_payload().c_str());
 	rapidjson::Document document;
 	if (document.Parse<0>(msg->get_payload().c_str()).HasParseError()){
 		musicbox_handler->onError("Error: JSON Parsing error!");

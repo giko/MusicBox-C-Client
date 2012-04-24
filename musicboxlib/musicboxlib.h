@@ -13,26 +13,30 @@
 
 using std::string;
 
-typedef void (*mb_callback) (const string &msg);
+typedef void (*mb_callback) (const char *msg);
 
-class MUSICBOXLIB_API CMusicBox {
+class CMusicBox {
 public:
-	CMusicBox(void);
-	bool Connect(const char *url);
-	mb_callback onConnect;
-	mb_callback onMessage;
-	mb_callback onError;
-	mb_callback onClose;
+    CMusicBox(void);
+    bool Connect(const char *url);
+    mb_callback onConnect;
+    mb_callback onMessage;
+    mb_callback onError;
+    mb_callback onClose;
 };
 
 typedef CMusicBox *CMusicBoxHandler;
+typedef char *PChar;
 
 enum CallbackType{
-	OnConnect, OnMessage, OnError, OnClose
+    OnConnect, OnMessage, OnError, OnClose
 };
 
+#define EXPORTCALL __declspec(dllexport) _stdcall
+
 extern "C" {
-	CMusicBoxHandler MUSICBOXLIB_API NewMusicBox(void);
-	bool MUSICBOXLIB_API MusicBoxConnect(CMusicBoxHandler handler, const char *url);
-	void MUSICBOXLIB_API MusicBoxSetCallback(CMusicBoxHandler handler, enum CallbackType type, mb_callback cb);
+    CMusicBoxHandler MUSICBOXLIB_API  NewMusicBox(void);
+    PChar MUSICBOXLIB_API  MusicBoxConnect(CMusicBoxHandler handler, const char *url);
+    void MUSICBOXLIB_API  MusicBoxSetCallback(CMusicBoxHandler handler, enum CallbackType type, mb_callback cb);
+    //void MUSICBOXLIB_API MusicBoxClose(CMusicBoxHandler handler);
 }
