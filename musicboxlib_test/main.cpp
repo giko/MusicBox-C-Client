@@ -23,20 +23,25 @@ int main() {
 
     setlocale(LC_ALL, "");
 
-    CMusicBox* mb = new CMusicBox;
+    //CMusicBox* mb = new CMusicBox;
 
-    //setting callbacks
-    mb->onMessage = &onMessage;
-    mb->onConnect = &onConnect;
-    mb->onError = &onError;
+    ////setting callbacks
+    //mb->onMessage = &onMessage;
+    //mb->onConnect = &onConnect;
+    //mb->onError = &onError;
 
-    //Connect & run without thread
-    //mb->Connect("ws://localhost/musicbox");
+    ////Connect & run without thread
+    ////mb->Connect("ws://localhost/musicbox");
 
-    //starting MusicBox WS task in thread
-    boost::thread t(boost::bind(&CMusicBox::Connect, mb, "ws://localhost/musicbox"));
+    ////starting MusicBox WS task in thread
+    //boost::thread t(boost::bind(&CMusicBox::Connect, mb, "ws://localhost/musicbox"));
 
-    t.join();
-    system("PAUSE");
-    return 0;
+    //t.join();
+    //system("PAUSE");
+    //return 0;
+
+	CMusicBoxHandler handler = NewMusicBox();
+
+	MusicBoxConnect(handler, "ws://localhost/musicbox");
+	MusicBoxSetCallback(handler, OnConnect, &onConnect);
 }
