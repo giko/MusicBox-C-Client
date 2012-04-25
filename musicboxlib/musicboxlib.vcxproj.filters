@@ -24,13 +24,10 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="musicboxlib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="packet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mb_handler.h">
+    <ClInclude Include="musicboxlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

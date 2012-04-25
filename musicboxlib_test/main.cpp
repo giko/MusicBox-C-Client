@@ -46,5 +46,6 @@ int main() {
     MusicBoxSetCallback(handler, OnError, &onError);
     MusicBoxSetCallback(handler, OnMessage, &onMessage);
     MusicBoxConnect(handler, "ws://localhost/musicbox");
+	MusicBoxClose(handler);
     //MusicBoxSetCallback(handler, OnClose, &oncl);
 }

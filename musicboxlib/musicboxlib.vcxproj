@@ -91,7 +91,6 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="mb_handler.h" />
     <ClInclude Include="musicboxlib.h" />
     <ClInclude Include="packet.h" />
     <ClInclude Include="stdafx.h" />
