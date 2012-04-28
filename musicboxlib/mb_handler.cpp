@@ -7,10 +7,11 @@ CMusicBox::musicbox_client_handler::musicbox_client_handler(CMusicBox *mb){
 }
 
 void CMusicBox::musicbox_client_handler::on_open(connection_ptr con){
-	//musicbox_handler->onConnect(con->get_host());
 	connection = con;
 	musicbox::Packet *packet = new musicbox::Packet(musicbox::CHATMESSAGE, "blaaaa");
 	send(packet->toString());
+
+	musicbox_handler->onConnect("OK!");
 }
 
 void CMusicBox::musicbox_client_handler::on_message(connection_ptr con, message_ptr msg){

@@ -12,35 +12,22 @@ CMusicBox::CMusicBox()
 	return;
 }
 
-bool CMusicBox::Connect(const char *uri){
+void CMusicBox::Connect(const char *uri){
 	try {
-		musicbox_client_handler_ptr handlerex(new musicbox_client_handler(this));
+		handler = musicbox_client_handler_ptr (new musicbox_client_handler(this));
 
-		//I hope, god doesn't seen this
-		handler = handlerex;
-
-		client::connection_ptr con;
-		client endpoint(handler);
+		endpoint = client_handler_ptr( new client(handler));
 
 		string uristr(uri);
 
-		con = endpoint.get_connection(uristr);
+		con = endpoint->get_connection(uristr);
 
-		endpoint.connect(con);
+		endpoint->connect(con);
 
-		boost::thread t(boost::bind(&client::run, &endpoint, false));
-
-		char line[512];
-		while (std::cin.getline(line, 512)) {
-			handler->send(line);
-		}
-		t.join();
+		main_thread = new boost::thread (boost::bind(&client::run, endpoint, false));
 	} catch (std::exception& e) {
 		std::cerr << "Exception: " << e.what() << std::endl;
-		return false;
 	}
-
-	return true;
 }
 
 
@@ -49,10 +36,8 @@ extern "C" {
 		return new CMusicBox();
 	}
 
-	PChar MUSICBOXLIB_API MusicBoxConnect(CMusicBoxHandler handler, const PChar url){
-		boost::thread t(boost::bind(&CMusicBox::Connect, *handler, url));
-
-		return "running";
+	void MUSICBOXLIB_API MusicBoxConnect(CMusicBoxHandler handler, const PChar url){
+		return handler->Connect(url);
 	}
 
 	void MUSICBOXLIB_API MusicBoxSetCallback(CMusicBoxHandler handler, enum CallbackType type, mb_callback cb){
@@ -79,11 +64,20 @@ extern "C" {
 		if (handler->handler){
 			handler->handler->close();
 		}
+		else
+		{
+			std::cerr << "Error: No Connection?!";
+		}
 	}
 
 	void MUSICBOXLIB_API MusicBoxSend(CMusicBoxHandler handler, PChar msg){
 		if (handler->handler){
 			handler->handler->send(string(msg));
+
+		}
+		else
+		{
+			std::cerr << "Error: No Connection?!";
 		}
 	}
 }

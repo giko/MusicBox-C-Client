@@ -14,11 +14,16 @@
 #include "musicboxlib.h"
 #include "roles\client.hpp"
 #include "websocketpp.hpp"
+#include "packet.h"
 
 using std::string;
 using websocketpp::client;
 
+typedef boost::shared_ptr<client> client_handler_ptr;
+
+
 typedef void (*mb_callback) (const char *msg);
+typedef boost::thread *PThread;
 
 class CMusicBox {
 	class musicbox_client_handler : public client::handler {
@@ -28,6 +33,7 @@ class CMusicBox {
 		void on_close(connection_ptr con);
 		void on_message(connection_ptr con, message_ptr msg);
 		void send(const std::string &msg);
+		void send(const musicbox::Packet &packet);
 		void close();
 		void on_fail(connection_ptr con);
 
@@ -39,13 +45,17 @@ class CMusicBox {
 	typedef boost::shared_ptr<musicbox_client_handler> musicbox_client_handler_ptr;
 public:
 	CMusicBox(void);
-	bool Connect(const char *url);
+	void Connect(const char *url);
 	mb_callback onConnect;
 	mb_callback onMessage;
 	mb_callback onError;
 	mb_callback onClose;
 	//TODO: make it private!
 	musicbox_client_handler_ptr handler;
+	PThread main_thread;
+private:
+	client_handler_ptr endpoint;
+	client::connection_ptr con;
 };
 
 typedef CMusicBox *CMusicBoxHandler;
@@ -55,11 +65,9 @@ enum CallbackType{
 	OnConnect, OnMessage, OnError, OnClose
 };
 
-#define EXPORTCALL __declspec(dllexport) _stdcall
-
 extern "C" {
 	CMusicBoxHandler MUSICBOXLIB_API  NewMusicBox(void);
-	PChar MUSICBOXLIB_API  MusicBoxConnect(CMusicBoxHandler handler, const PChar url);
+	void MUSICBOXLIB_API  MusicBoxConnect(CMusicBoxHandler handler, const PChar url);
 	void MUSICBOXLIB_API  MusicBoxSetCallback(CMusicBoxHandler handler, enum CallbackType type, mb_callback cb);
 	void MUSICBOXLIB_API MusicBoxClose(CMusicBoxHandler handler);
 	void MUSICBOXLIB_API MusicBoxSend(CMusicBoxHandler handler, PChar msg);
