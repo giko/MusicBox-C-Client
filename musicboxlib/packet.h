@@ -14,7 +14,7 @@ namespace musicbox {
     public:
         string getActionString() const;
         Packet(Action act, string msg);
-        string toString();
+        string toString() const;
     protected:
         template <typename Writer>
         void Serialize(Writer& writer) const;

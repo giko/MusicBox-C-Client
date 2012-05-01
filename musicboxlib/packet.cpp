@@ -59,7 +59,7 @@ void Packet::Serialize(Writer& writer) const {
     writer.EndObject();
 }
 
-string Packet::toString(){
+string Packet::toString() const{
     std::stringstream s;
     rapidjson::Writer<std::stringstream> writer(s);             // Can also use Writer for condensed formatting
     Serialize(writer);
