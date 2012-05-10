@@ -32,12 +32,12 @@ class CMusicBox {
         void on_open(connection_ptr con);
         void on_close(connection_ptr con);
         void on_message(connection_ptr con, message_ptr msg);
+        void on_fail(connection_ptr con);
         void send(const std::string &msg);
         void send(const musicbox::Packet *packet);
         void send(const musicbox::Action action, const std::string &msg);
         void close();
-        void on_fail(connection_ptr con);
-
+        
     private:
         CMusicBox *musicbox_handler;
         connection_ptr connection;

@@ -1,6 +1,6 @@
 #include <iostream>
 #include "musicboxlib.h"
-#include <clocale>
+#include <locale.h>
 #include "jsonlib.h"
 
 using std::cout;
@@ -9,12 +9,17 @@ using std::endl;
 CMusicBoxHandler handler;
 
 void onMessage(const PRoot msg){
-    cout << std::string(Json_getString(Json_getChildFromRoot(msg, "action")));
+    if (Json_getString(Json_getChildFromRoot(msg, "action")) == "MESSAGE"){
+        cout << Json_getString(Json_getChildFromRoot(msg, "message"));
+    }
+
+    cout << Json_getString(Json_getChildFromRoot(msg, "action"));
 }
 
 void onConnect(const char *msg){
     cout << "Connected: " << msg << endl;
-    MusicBoxSend(handler, musicbox::CHATMESSAGE, "Hell, yeah!");
+    MusicBoxSend(handler, musicbox::LOGIN, "4f66e89b3d5c1ff58608901553d5dbdb4accd2ecd7cbff765e34a4becfe96d1c");
+    MusicBoxSend(handler, musicbox::CHATMESSAGE, "Урааа");
 }
 
 void onError(const char *msg){
@@ -48,7 +53,8 @@ int main() {
     MusicBoxSetCallback(handler, OnError, &onError);
     MusicBoxSetOnMessage(handler, &onMessage);
     MusicBoxConnect(handler, "ws://localhost/musicbox") ;
-    handler->main_thread->join();
+    for(;;){
+    }
     //MusicBoxClose(handler);
     //MusicBoxSetCallback(handler, OnClose, &oncl);
 }

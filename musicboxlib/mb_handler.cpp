@@ -8,14 +8,13 @@ CMusicBox::musicbox_client_handler::musicbox_client_handler(CMusicBox *mb){
 
 void CMusicBox::musicbox_client_handler::on_open(connection_ptr con){
     connection = con;
-    
-    send(musicbox::CHATMESSAGE, "blaaa");
 
     musicbox_handler->onConnect("OK!");
 }
 
 void CMusicBox::musicbox_client_handler::on_message(connection_ptr con, message_ptr msg){
     rapidjson::Document document;
+    std::cout << msg->get_payload() << std::endl;
     if (document.Parse<0>(msg->get_payload().c_str()).HasParseError()){
         musicbox_handler->onError("Error: JSON Parsing error!");
         return;
